@@ -30,7 +30,6 @@ public class BorderLayoutEx01 extends MyFrame {
 		panel.add(btnWest, BorderLayout.WEST);
 		panel.add(btnSouth, BorderLayout.SOUTH);
 		panel.add(btnCenter, BorderLayout.CENTER);
-
 		setVisible(true); // paint ¸Þ¼­µå
 	}
 

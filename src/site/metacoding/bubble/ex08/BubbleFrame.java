@@ -1,4 +1,4 @@
-package site.metacoding.bubble.ex06;
+package site.metacoding.bubble.ex08;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -9,27 +9,36 @@ import javax.swing.JLabel;
 
 /**
  * 
- * @author 메타코딩 목적: 색상테스트
- *
+ * @author 메타코딩 목적: 버블 발사하기 (충돌? 안함) 수평발사!!
+ * 
+ * 
  */
 
+// main을 가진 클래스는 해당 프로그램에 컨텍스트(문맥)를 다 알고 있다. 
+// ex) main에서 바리스타를 new => 바리스타는 coffee를 new => main은 바리스타도 알고 커피도 암.
 public class BubbleFrame extends JFrame {
 
+	private BubbleFrame Context = this;
 	private JLabel backgroundMap;
 	private Player player;
 
 	int count = 0;
 
-	public BubbleFrame() {
+	public Player getPlayer() {
+		return player;
+	}
 
+	public void setPlayer(Player player) {
+		this.player = player;
+	}
+
+	public BubbleFrame() {
 		initObject();
 		initSetting();
 		initListener();
-
 		initService();
 		setVisible(true); // 내부에 paintComponent() 호출 코드가 있다.
-		// 테스트
-		// new BackgroundMapService(player);
+
 	}
 
 	private void initService() {
@@ -39,10 +48,10 @@ public class BubbleFrame extends JFrame {
 	// new 하는 것
 	private void initObject() {
 		backgroundMap = new JLabel();
-		backgroundMap.setIcon(new ImageIcon("image/test.png"));
+		backgroundMap.setIcon(new ImageIcon("image/backgroundMap.png"));
 		setContentPane(backgroundMap); // 백그라운드 화면 설정
 
-		player = new Player();
+		player = new Player(Context);
 		add(player);
 
 	}
@@ -56,6 +65,7 @@ public class BubbleFrame extends JFrame {
 	}
 
 	private void initListener() {
+
 		addKeyListener(new KeyListener() {
 
 			@Override
@@ -74,6 +84,7 @@ public class BubbleFrame extends JFrame {
 				} else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
 					// isLeft를 false
 					player.setLeft(false);
+
 				}
 
 			}
@@ -81,22 +92,25 @@ public class BubbleFrame extends JFrame {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				// 왼쪽 37, 오른쪽 39, 위쪽 38, 아래쪽 40
-				// System.out.println("키보드 프레스 : "+e.getKeyCode());
+				System.out.println("키보드 프레스 : " + e.getKeyCode());
 
-				if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+				if (e.getKeyCode() == KeyEvent.VK_RIGHT && player.isRightWallCrash() == false) {
 					// 키보드를 누르고 있는 동안 right() 메서드를 한번만 실행하고 싶다.
 					if (player.isRight() == false) {
 						player.right();
 					}
 
 				} else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-					if (player.isLeft() == false) {
+
+					if (player.isLeft() == false && player.isLeftWallCrash() == false) {
 						player.left();
 					}
 				} else if (e.getKeyCode() == 38) {
-					if (player.isJump() == false) {
-						player.jump();
+					if (player.isUp() == false && player.isDown() == false) {
+						player.up();
 					}
+				} else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+					player.attack(); // 여기서 add를 하는게 아니라 attack만 호출해야 한다. => attack은 player의 책임.
 				}
 			}
 		});

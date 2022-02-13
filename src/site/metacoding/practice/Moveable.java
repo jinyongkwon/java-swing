@@ -1,6 +1,6 @@
 package site.metacoding.practice;
 
-public interface Moveable {
+public interface Moveable { // 인터페이스로 강제화
 	void left();
 
 	void right();

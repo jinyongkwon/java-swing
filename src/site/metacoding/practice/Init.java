@@ -10,7 +10,7 @@ package site.metacoding.practice;
  * 
  */
 
-public interface Init {
+public interface Init { // 인터페이스로 강제화
 	void initObject();
 
 	void initSetting();

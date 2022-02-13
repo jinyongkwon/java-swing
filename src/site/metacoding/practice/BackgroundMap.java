@@ -26,7 +26,7 @@ public class BackgroundMap extends JLabel {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		backgroundMap = new ImageIcon("image/backgroundMap.png");
+		backgroundMap = new ImageIcon("image/backgroundMap.png"); // 이미지를 맵으로설정.
 		setIcon(backgroundMap); // Div 박스에 이미지 넣기
 	}
 }
